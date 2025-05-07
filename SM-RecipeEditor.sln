@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35913.81 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SM-RecipeEditor", "SM-RecipeEditor\SM-RecipeEditor.csproj", "{525098B8-BC73-4AC2-AD14-9AC65F08BBF9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{525098B8-BC73-4AC2-AD14-9AC65F08BBF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{525098B8-BC73-4AC2-AD14-9AC65F08BBF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{525098B8-BC73-4AC2-AD14-9AC65F08BBF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{525098B8-BC73-4AC2-AD14-9AC65F08BBF9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {076F6EE3-05FE-4123-A637-95B02177E205}
+	EndGlobalSection
+EndGlobal
