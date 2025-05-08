@@ -12,12 +12,12 @@ namespace SM_RecipeEditor
         private string GamePath = "";
         private int LastRecipeIndex = -1;
         private bool RecipeHasChanged = false;
-        private bool RecipeSetupInProcess = false;
+        private bool RecipeSetupInProgress = false;
         private Dictionary<string, Recipe> CurrentRecipes = [];
         private Dictionary<string, ItemDescription> itemDescriptions = [];
         private Dictionary<string, string> itemNameToUUID = [];
 
-        public static Main Instance { get; private set; }
+        public static Main? Instance { get; private set; }
 
         public Main()
         {
@@ -92,7 +92,7 @@ namespace SM_RecipeEditor
                 }
             }
 
-            RecipeSetupInProcess = true;
+            RecipeSetupInProgress = true;
 
             LastRecipeIndex = id;
             if (id == listb_recipeFiles.Items.Count - 1)
@@ -104,7 +104,7 @@ namespace SM_RecipeEditor
             cb_item.Items.Clear();
 
             string item = listb_recipeFiles.Items[id]!.ToString()!;
-            if (CurrentRecipes.TryGetValue(item, out Recipe recipe))
+            if (CurrentRecipes.TryGetValue(item, out Recipe? recipe))
             {
                 tx_quantity.Text = recipe.quantity.ToString();
                 tx_craftTime.Text = recipe.craftTime.ToString();
@@ -136,7 +136,7 @@ namespace SM_RecipeEditor
                 cb_item.SelectedIndex = 0;
             }
 
-            RecipeSetupInProcess = false;
+            RecipeSetupInProgress = false;
             
             RecipeHasChanged = false;
             bt_save.Visible = false;
@@ -146,7 +146,7 @@ namespace SM_RecipeEditor
 
         private void RecipeItemChanged(object sender, EventArgs e)
         {
-            if (RecipeSetupInProcess) { return; }
+            if (RecipeSetupInProgress) { return; }
 
             RecipeHasChanged = true;
             bt_save.Visible = true;
@@ -154,7 +154,7 @@ namespace SM_RecipeEditor
 
         private void RecipeNumberChanged(object sender, EventArgs e)
         {
-            if (RecipeSetupInProcess) { return; }
+            if (RecipeSetupInProgress) { return; }
            
             TextBox box = (sender as TextBox)!;
             if (!int.TryParse(box.Text, out int _))
@@ -197,7 +197,7 @@ namespace SM_RecipeEditor
 
             string itemName = listb_recipeFiles.Items[listb_recipeFiles.SelectedIndex].ToString()!;
             bool isNew = false;
-            if (!CurrentRecipes.TryGetValue(itemName, out Recipe modified))
+            if (!CurrentRecipes.TryGetValue(itemName, out Recipe? modified))
             {
                 modified = new Recipe();
                 isNew = true;
