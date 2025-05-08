@@ -1,6 +1,6 @@
 ﻿namespace SM_RecipeEditor
 {
-    public class ItemDescription
+    internal class ItemDescription
     {
         public string description;
         public string title;
