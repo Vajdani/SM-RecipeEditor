@@ -27,7 +27,7 @@ namespace SM_RecipeEditor
 
             p_main.Visible = false;
 
-            string userID = Util.GetLoggedInSteamUserID();
+            string? userID = Util.GetLoggedInSteamUserID();
             if (userID == null)
             {
                 MessageBox.Show("poopoo steam", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -121,6 +121,28 @@ namespace SM_RecipeEditor
                         cb_item.SelectedIndex = i;
                     }
                 }
+
+                p_ingredients.Visible = true;
+                dgv_ingredients.Rows.Clear();
+                foreach (RecipeItem ingredient in recipe.ingredientList)
+                {
+                    dgv_ingredients.Rows.Add(GetItemName(ingredient.itemId), ingredient.quantity);
+                }
+
+                if (recipe.extras == null)
+                {
+                    p_extras.Visible = false;
+                }
+                else
+                {
+                    dgv_extras.Rows.Clear();
+                    foreach (RecipeItem extra in recipe.extras)
+                    {
+                        dgv_extras.Rows.Add(GetItemName(extra.itemId), extra.quantity);
+                    }
+
+                    p_extras.Visible = true;
+                }
             }
             else
             {
@@ -134,6 +156,9 @@ namespace SM_RecipeEditor
                 }
 
                 cb_item.SelectedIndex = 0;
+
+                p_ingredients.Visible = false;
+                p_extras.Visible = false;
             }
 
             RecipeSetupInProgress = false;
@@ -248,6 +273,7 @@ namespace SM_RecipeEditor
             cb_file.Items.Clear();
             p_main.Visible = true;
             p_edit.Visible = false;
+            p_extras.Visible = false;
             listb_recipeFiles.Visible = false;
 
             string value = cb_mod.Items[cb_mod.SelectedIndex]!.ToString()!;

@@ -15,7 +15,7 @@
     internal class Recipe
     {
 		public string itemId = "";
-		public List<RecipeItem[]>? extras;
+		public List<RecipeItem>? extras;
 		public float quantity;
 		public float craftTime;
 		public List<RecipeItem> ingredientList = [];

@@ -5,9 +5,6 @@ namespace SM_RecipeEditor
 {
 	static class Util
 	{
-		public static string programVersion = Application.ProductVersion.Substring(0, Application.ProductVersion.IndexOf('+'));
-		public static string programName = "MyGui.net " + programVersion;
-
 		public static string? GetSteamInstallPath()
 		{
 			try

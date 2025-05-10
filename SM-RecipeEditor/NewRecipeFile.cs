@@ -22,7 +22,7 @@ namespace SM_RecipeEditor
                 return;
             }
 
-            string filePath = Main.Instance.ModPath + $"CraftingRecipes\\{tx_name.Text}.json";
+            string filePath = Main.Instance!.ModPath + $"CraftingRecipes\\{tx_name.Text}.json";
             if (File.Exists(filePath) && 
                 MessageBox.Show("This file already exists. Do you want to replace it?", "File conflict", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {

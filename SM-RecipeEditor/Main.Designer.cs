@@ -32,6 +32,11 @@
             label1 = new Label();
             p_main = new Panel();
             p_edit = new Panel();
+            p_extras = new Panel();
+            dgv_extras = new DataGridView();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            label7 = new Label();
             bt_save = new Button();
             tx_craftTime = new TextBox();
             label5 = new Label();
@@ -43,8 +48,17 @@
             bt_new = new Button();
             cb_file = new ComboBox();
             label2 = new Label();
+            p_ingredients = new Panel();
+            dgv_ingredients = new DataGridView();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
+            label6 = new Label();
             p_main.SuspendLayout();
             p_edit.SuspendLayout();
+            p_extras.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgv_extras).BeginInit();
+            p_ingredients.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgv_ingredients).BeginInit();
             SuspendLayout();
             // 
             // cb_mod
@@ -79,6 +93,8 @@
             // 
             // p_edit
             // 
+            p_edit.Controls.Add(p_ingredients);
+            p_edit.Controls.Add(p_extras);
             p_edit.Controls.Add(bt_save);
             p_edit.Controls.Add(tx_craftTime);
             p_edit.Controls.Add(label5);
@@ -90,6 +106,45 @@
             p_edit.Name = "p_edit";
             p_edit.Size = new Size(619, 334);
             p_edit.TabIndex = 4;
+            // 
+            // p_extras
+            // 
+            p_extras.Controls.Add(dgv_extras);
+            p_extras.Controls.Add(label7);
+            p_extras.Location = new Point(305, 94);
+            p_extras.Name = "p_extras";
+            p_extras.Size = new Size(311, 209);
+            p_extras.TabIndex = 8;
+            // 
+            // dgv_extras
+            // 
+            dgv_extras.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgv_extras.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2 });
+            dgv_extras.Location = new Point(11, 18);
+            dgv_extras.Name = "dgv_extras";
+            dgv_extras.Size = new Size(289, 191);
+            dgv_extras.TabIndex = 12;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.HeaderText = "Item";
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.Width = 170;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.HeaderText = "Quantity";
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.Width = 75;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(11, 0);
+            label7.Name = "label7";
+            label7.Size = new Size(40, 15);
+            label7.TabIndex = 11;
+            label7.Text = "Extras:";
             // 
             // bt_save
             // 
@@ -190,6 +245,45 @@
             label2.TabIndex = 0;
             label2.Text = "File:";
             // 
+            // p_ingredients
+            // 
+            p_ingredients.Controls.Add(dgv_ingredients);
+            p_ingredients.Controls.Add(label6);
+            p_ingredients.Location = new Point(10, 94);
+            p_ingredients.Name = "p_ingredients";
+            p_ingredients.Size = new Size(289, 209);
+            p_ingredients.TabIndex = 9;
+            // 
+            // dgv_ingredients
+            // 
+            dgv_ingredients.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgv_ingredients.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4 });
+            dgv_ingredients.Location = new Point(0, 18);
+            dgv_ingredients.Name = "dgv_ingredients";
+            dgv_ingredients.Size = new Size(289, 191);
+            dgv_ingredients.TabIndex = 12;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            dataGridViewTextBoxColumn3.HeaderText = "Item";
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.Width = 170;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            dataGridViewTextBoxColumn4.HeaderText = "Quantity";
+            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            dataGridViewTextBoxColumn4.Width = 75;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(0, 0);
+            label6.Name = "label6";
+            label6.Size = new Size(69, 15);
+            label6.TabIndex = 11;
+            label6.Text = "Ingredients:";
+            // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -206,6 +300,12 @@
             p_main.PerformLayout();
             p_edit.ResumeLayout(false);
             p_edit.PerformLayout();
+            p_extras.ResumeLayout(false);
+            p_extras.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgv_extras).EndInit();
+            p_ingredients.ResumeLayout(false);
+            p_ingredients.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgv_ingredients).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -227,5 +327,15 @@
         private Label label5;
         private TextBox tx_quantity;
         private Button bt_save;
+        private Panel p_extras;
+        private DataGridView dgv_extras;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private Label label7;
+        private Panel p_ingredients;
+        private DataGridView dgv_ingredients;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private Label label6;
     }
 }
