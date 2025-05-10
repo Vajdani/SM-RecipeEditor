@@ -17,6 +17,8 @@ namespace SM_RecipeEditor
         private Dictionary<string, ItemDescription> itemDescriptions = [];
         private Dictionary<string, string> itemNameToUUID = [];
 
+        private Dictionary<string, int> itemNameCount = [];
+
         public static Main? Instance { get; private set; }
 
         public Main()
@@ -45,8 +47,8 @@ namespace SM_RecipeEditor
                 }
 
                 GamePath = Util.GetGameInstallPath("387990")!;
-                ParseDescriptions(GamePath + "\\Data\\Gui\\Language\\English\\InventoryItemDescriptions.json", "Creative");
-                ParseDescriptions(GamePath + "\\Survival\\Gui\\Language\\English\\inventoryDescriptions.json", "Survival");
+                ParseDescriptions(GamePath + "\\Data\\Gui\\Language\\English\\InventoryItemDescriptions.json");
+                ParseDescriptions(GamePath + "\\Survival\\Gui\\Language\\English\\inventoryDescriptions.json");
             }
         }
 
@@ -56,7 +58,7 @@ namespace SM_RecipeEditor
             RecipeHasChanged = false;
 
             RefreshRecipeFileList();
-            ParseDescriptions(ModPath + "\\Gui\\Language\\English\\inventoryDescriptions.json", ModName);
+            ParseDescriptions(ModPath + "\\Gui\\Language\\English\\inventoryDescriptions.json");
         }
 
         private void OnFileSelected(object sender, EventArgs e)
@@ -251,20 +253,30 @@ namespace SM_RecipeEditor
             RefreshRecipeList();
         }
 
-        private void ParseDescriptions(string path, string source)
+        private void ParseDescriptions(string path)
         {
             Dictionary<string, ItemDescription> _itemDescriptions = JsonConvert.DeserializeObject<Dictionary<string, ItemDescription>>(
                 File.ReadAllText(path)
             )!;
             foreach (var item in _itemDescriptions)
             {
-                itemDescriptions.TryAdd(item.Key, item.Value);
-
-                string name = item.Value.title;
-                if (!itemNameToUUID.TryAdd(name, item.Key))
+                string originalName = item.Value.title;
+                string name = originalName;
+                if (itemNameToUUID.ContainsKey(name))
                 {
-                    itemNameToUUID.TryAdd($"{name}({source})", item.Key); //Thanks Craftbot for TryAdd
+                    if (!itemNameCount.ContainsKey(originalName))
+                    {
+                        itemNameCount.Add(originalName, 1);
+                    }
+
+                    name = $"{name} #{itemNameCount[originalName]}";
+                    itemNameCount[originalName]++;
                 }
+
+                item.Value.title = name;
+
+                itemDescriptions.TryAdd(item.Key, item.Value);
+                itemNameToUUID.TryAdd(name, item.Key);
             }
         }
 
