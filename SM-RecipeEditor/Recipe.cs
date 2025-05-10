@@ -1,10 +1,5 @@
 ﻿namespace SM_RecipeEditor
 {
-  //  internal class RecipeFile
-  //  {
-		//public string path;
-		//public List<Recipe> recipes;
-  //  }
 
 	internal class RecipeItem
 	{

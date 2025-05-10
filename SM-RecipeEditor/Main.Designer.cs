@@ -32,6 +32,11 @@
             label1 = new Label();
             p_main = new Panel();
             p_edit = new Panel();
+            p_ingredients = new Panel();
+            dgv_ingredients = new DataGridView();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
+            label6 = new Label();
             p_extras = new Panel();
             dgv_extras = new DataGridView();
             dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
@@ -48,17 +53,12 @@
             bt_new = new Button();
             cb_file = new ComboBox();
             label2 = new Label();
-            p_ingredients = new Panel();
-            dgv_ingredients = new DataGridView();
-            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
-            label6 = new Label();
             p_main.SuspendLayout();
             p_edit.SuspendLayout();
-            p_extras.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgv_extras).BeginInit();
             p_ingredients.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgv_ingredients).BeginInit();
+            p_extras.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgv_extras).BeginInit();
             SuspendLayout();
             // 
             // cb_mod
@@ -107,6 +107,45 @@
             p_edit.Size = new Size(619, 334);
             p_edit.TabIndex = 4;
             // 
+            // p_ingredients
+            // 
+            p_ingredients.Controls.Add(dgv_ingredients);
+            p_ingredients.Controls.Add(label6);
+            p_ingredients.Location = new Point(10, 94);
+            p_ingredients.Name = "p_ingredients";
+            p_ingredients.Size = new Size(289, 209);
+            p_ingredients.TabIndex = 9;
+            // 
+            // dgv_ingredients
+            // 
+            dgv_ingredients.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgv_ingredients.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4 });
+            dgv_ingredients.Location = new Point(0, 18);
+            dgv_ingredients.Name = "dgv_ingredients";
+            dgv_ingredients.Size = new Size(289, 191);
+            dgv_ingredients.TabIndex = 12;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            dataGridViewTextBoxColumn3.HeaderText = "Item";
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.Width = 170;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            dataGridViewTextBoxColumn4.HeaderText = "Quantity";
+            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            dataGridViewTextBoxColumn4.Width = 75;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(0, 0);
+            label6.Name = "label6";
+            label6.Size = new Size(69, 15);
+            label6.TabIndex = 11;
+            label6.Text = "Ingredients:";
+            // 
             // p_extras
             // 
             p_extras.Controls.Add(dgv_extras);
@@ -154,7 +193,7 @@
             bt_save.TabIndex = 7;
             bt_save.Text = "Save changes";
             bt_save.UseVisualStyleBackColor = true;
-            bt_save.Click += bt_save_Click;
+            bt_save.Click += OnSaveRecipeClick;
             // 
             // tx_craftTime
             // 
@@ -162,6 +201,7 @@
             tx_craftTime.Name = "tx_craftTime";
             tx_craftTime.Size = new Size(121, 23);
             tx_craftTime.TabIndex = 6;
+            tx_craftTime.TextChanged += RecipeNumberChanged;
             // 
             // label5
             // 
@@ -225,7 +265,7 @@
             bt_new.TabIndex = 2;
             bt_new.Text = "Create new file";
             bt_new.UseVisualStyleBackColor = true;
-            bt_new.Click += bt_new_Click;
+            bt_new.Click += OnNewRecipeClick;
             // 
             // cb_file
             // 
@@ -245,45 +285,6 @@
             label2.TabIndex = 0;
             label2.Text = "File:";
             // 
-            // p_ingredients
-            // 
-            p_ingredients.Controls.Add(dgv_ingredients);
-            p_ingredients.Controls.Add(label6);
-            p_ingredients.Location = new Point(10, 94);
-            p_ingredients.Name = "p_ingredients";
-            p_ingredients.Size = new Size(289, 209);
-            p_ingredients.TabIndex = 9;
-            // 
-            // dgv_ingredients
-            // 
-            dgv_ingredients.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv_ingredients.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4 });
-            dgv_ingredients.Location = new Point(0, 18);
-            dgv_ingredients.Name = "dgv_ingredients";
-            dgv_ingredients.Size = new Size(289, 191);
-            dgv_ingredients.TabIndex = 12;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            dataGridViewTextBoxColumn3.HeaderText = "Item";
-            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            dataGridViewTextBoxColumn3.Width = 170;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            dataGridViewTextBoxColumn4.HeaderText = "Quantity";
-            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            dataGridViewTextBoxColumn4.Width = 75;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(0, 0);
-            label6.Name = "label6";
-            label6.Size = new Size(69, 15);
-            label6.TabIndex = 11;
-            label6.Text = "Ingredients:";
-            // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -300,12 +301,12 @@
             p_main.PerformLayout();
             p_edit.ResumeLayout(false);
             p_edit.PerformLayout();
-            p_extras.ResumeLayout(false);
-            p_extras.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgv_extras).EndInit();
             p_ingredients.ResumeLayout(false);
             p_ingredients.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgv_ingredients).EndInit();
+            p_extras.ResumeLayout(false);
+            p_extras.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgv_extras).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }

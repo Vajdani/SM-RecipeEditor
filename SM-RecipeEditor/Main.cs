@@ -1,6 +1,4 @@
 using Newtonsoft.Json;
-using System.Diagnostics;
-using System.IO;
 
 namespace SM_RecipeEditor
 {
@@ -13,10 +11,9 @@ namespace SM_RecipeEditor
         private int LastRecipeIndex = -1;
         private bool RecipeHasChanged = false;
         private bool RecipeSetupInProgress = false;
-        private Dictionary<string, Recipe> CurrentRecipes = [];
+        private List<Recipe> CurrentRecipes = [];
         private Dictionary<string, ItemDescription> itemDescriptions = [];
         private Dictionary<string, string> itemNameToUUID = [];
-
         private Dictionary<string, int> itemNameCount = [];
 
         public static Main? Instance { get; private set; }
@@ -46,7 +43,15 @@ namespace SM_RecipeEditor
                     }
                 }
 
-                GamePath = Util.GetGameInstallPath("387990")!;
+                string? path = Util.GetGameInstallPath("387990");
+                if (path == null)
+                {
+                    MessageBox.Show("SM game files not found", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Close();
+                    return;
+                }
+
+                GamePath = path;
                 ParseDescriptions(GamePath + "\\Data\\Gui\\Language\\English\\InventoryItemDescriptions.json");
                 ParseDescriptions(GamePath + "\\Survival\\Gui\\Language\\English\\inventoryDescriptions.json");
             }
@@ -66,7 +71,7 @@ namespace SM_RecipeEditor
             RefreshRecipeList();
         }
 
-        private void bt_new_Click(object sender, EventArgs e)
+        private void OnNewRecipeClick(object sender, EventArgs e)
         {
             new NewRecipeFile().ShowDialog();
         }
@@ -106,7 +111,23 @@ namespace SM_RecipeEditor
             cb_item.Items.Clear();
 
             string item = listb_recipeFiles.Items[id]!.ToString()!;
-            if (CurrentRecipes.TryGetValue(item, out Recipe? recipe))
+            Recipe? recipe = GetRecipeByName(item);
+            if (recipe == null)
+            {
+                tx_quantity.Text = "0";
+                tx_craftTime.Text = "0";
+
+                cb_item.Items.Add("");
+                foreach (var pair in itemNameToUUID)
+                {
+                    cb_item.Items.Add(pair.Key);
+                }
+
+                cb_item.SelectedIndex = 0;
+
+                dgv_ingredients.Rows.Clear();
+            }
+            else
             {
                 tx_quantity.Text = recipe.quantity.ToString();
                 tx_craftTime.Text = recipe.craftTime.ToString();
@@ -124,43 +145,20 @@ namespace SM_RecipeEditor
                     }
                 }
 
-                p_ingredients.Visible = true;
                 dgv_ingredients.Rows.Clear();
                 foreach (RecipeItem ingredient in recipe.ingredientList)
                 {
                     dgv_ingredients.Rows.Add(GetItemName(ingredient.itemId), ingredient.quantity);
                 }
 
-                if (recipe.extras == null)
+                dgv_extras.Rows.Clear();
+                if (recipe.extras != null)
                 {
-                    p_extras.Visible = false;
-                }
-                else
-                {
-                    dgv_extras.Rows.Clear();
                     foreach (RecipeItem extra in recipe.extras)
                     {
                         dgv_extras.Rows.Add(GetItemName(extra.itemId), extra.quantity);
                     }
-
-                    p_extras.Visible = true;
                 }
-            }
-            else
-            {
-                tx_quantity.Text = "0";
-                tx_craftTime.Text = "0";
-
-                cb_item.Items.Add("");
-                foreach (var pair in itemNameToUUID)
-                {
-                    cb_item.Items.Add(pair.Key);
-                }
-
-                cb_item.SelectedIndex = 0;
-
-                p_ingredients.Visible = false;
-                p_extras.Visible = false;
             }
 
             RecipeSetupInProgress = false;
@@ -196,7 +194,7 @@ namespace SM_RecipeEditor
             }
         }
 
-        private void bt_save_Click(object sender, EventArgs e)
+        private void OnSaveRecipeClick(object sender, EventArgs e)
         {
             SaveChanges();
         }
@@ -222,9 +220,10 @@ namespace SM_RecipeEditor
                 NullValueHandling = NullValueHandling.Ignore
             };
 
-            string itemName = listb_recipeFiles.Items[listb_recipeFiles.SelectedIndex].ToString()!;
+            string itemName = listb_recipeFiles.Items[LastRecipeIndex].ToString()!;
             bool isNew = false;
-            if (!CurrentRecipes.TryGetValue(itemName, out Recipe? modified))
+            Recipe? modified = GetRecipeByName(itemName);
+            if (modified == null)
             {
                 modified = new Recipe();
                 isNew = true;
@@ -242,7 +241,7 @@ namespace SM_RecipeEditor
 
             foreach (var item in CurrentRecipes)
             {
-                recipes.Add(item.Value);
+                recipes.Add(item);
             }
 
             serializer.Serialize(writer, recipes);
@@ -285,7 +284,6 @@ namespace SM_RecipeEditor
             cb_file.Items.Clear();
             p_main.Visible = true;
             p_edit.Visible = false;
-            p_extras.Visible = false;
             listb_recipeFiles.Visible = false;
 
             string value = cb_mod.Items[cb_mod.SelectedIndex]!.ToString()!;
@@ -319,9 +317,8 @@ namespace SM_RecipeEditor
 
             foreach (Recipe recipe in recipes)
             {
-                string name = GetItemName(recipe.itemId);
-                listb_recipeFiles.Items.Add(name);
-                CurrentRecipes.Add(name, recipe);
+                listb_recipeFiles.Items.Add(GetItemName(recipe.itemId));
+                CurrentRecipes.Add(recipe);
             }
             listb_recipeFiles.Items.Add("-- Add new recipe --");
 
@@ -337,6 +334,24 @@ namespace SM_RecipeEditor
             }
 
             return uuid;
+        }
+
+        private Recipe? GetRecipeByName(string name)
+        {
+            if (!itemNameToUUID.TryGetValue(name, out var uuid))
+            {
+                return null;
+            }
+
+            foreach (Recipe recipe in CurrentRecipes)
+            {
+                if (uuid == recipe.itemId)
+                {
+                    return recipe;
+                }
+            }
+
+            return null;
         }
     }
 }

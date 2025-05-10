@@ -9,12 +9,12 @@ namespace SM_RecipeEditor
             InitializeComponent();
         }
 
-        private void bt_cancel_Click(object sender, EventArgs e)
+        private void OnCancelClick(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void bt_ok_Click(object sender, EventArgs e)
+        private void OnOKClick(object sender, EventArgs e)
         {
             if (tx_name.Text == "")
             {

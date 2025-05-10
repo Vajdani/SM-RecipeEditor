@@ -58,7 +58,7 @@
             bt_cancel.TabIndex = 2;
             bt_cancel.Text = "Cancel";
             bt_cancel.UseVisualStyleBackColor = true;
-            bt_cancel.Click += bt_cancel_Click;
+            bt_cancel.Click += OnCancelClick;
             // 
             // bt_ok
             // 
@@ -68,7 +68,7 @@
             bt_ok.TabIndex = 3;
             bt_ok.Text = "OK";
             bt_ok.UseVisualStyleBackColor = true;
-            bt_ok.Click += bt_ok_Click;
+            bt_ok.Click += OnOKClick;
             // 
             // NewRecipeFile
             // 

@@ -9,18 +9,16 @@ namespace SM_RecipeEditor
 		{
 			try
 			{
-				using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\WOW6432Node\Valve\Steam")!)
-				{
-					if (key != null)
-					{
-						Object o = key.GetValue("InstallPath")!;
-						if (o != null)
-						{
-							return o.ToString();
-						}
-					}
-				}
-			}
+                using RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\WOW6432Node\Valve\Steam")!;
+                if (key != null)
+                {
+                    Object o = key.GetValue("InstallPath")!;
+                    if (o != null)
+                    {
+                        return o.ToString();
+                    }
+                }
+            }
 			catch (Exception){ return null; }
 			return null;
 		}
@@ -60,12 +58,11 @@ namespace SM_RecipeEditor
 
 		public static List<string> GetSteamLibraryFolders(string steamInstallPath)
 		{
-			List<string> libraryFolders = new List<string> { Path.Combine(steamInstallPath, "steamapps") };
+			List<string> libraryFolders = [Path.Combine(steamInstallPath, "steamapps")];
 			string libraryFoldersFile = Path.Combine(steamInstallPath, "steamapps", "libraryfolders.vdf");
 
 			if (Util.IsValidFile(libraryFoldersFile))
 			{
-				string vdfContent = File.ReadAllText(libraryFoldersFile);
 				foreach (string line in File.ReadAllLines(libraryFoldersFile))
 				{
 					if (line.Contains("\"path\""))
@@ -129,11 +126,11 @@ namespace SM_RecipeEditor
                 try
                 {
                     // Try to open the file for reading and writing
-                    using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.ReadWrite))
+                    using (FileStream fs = new(path, FileMode.Open, FileAccess.ReadWrite))
                     {
                         // Optionally, you can write and delete a temporary file to test permissions
                         string testFile = Path.GetTempFileName();
-                        using (StreamWriter sw = new StreamWriter(testFile))
+                        using (StreamWriter sw = new(testFile))
                         {
                             sw.Write("test");
                         }
