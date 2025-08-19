@@ -126,16 +126,14 @@ namespace SM_RecipeEditor
                 try
                 {
                     // Try to open the file for reading and writing
-                    using (FileStream fs = new(path, FileMode.Open, FileAccess.ReadWrite))
+                    using FileStream fs = new(path, FileMode.Open, FileAccess.ReadWrite);
+                    // Optionally, you can write and delete a temporary file to test permissions
+                    string testFile = Path.GetTempFileName();
+                    using (StreamWriter sw = new(testFile))
                     {
-                        // Optionally, you can write and delete a temporary file to test permissions
-                        string testFile = Path.GetTempFileName();
-                        using (StreamWriter sw = new(testFile))
-                        {
-                            sw.Write("test");
-                        }
-                        File.Delete(testFile);
+                        sw.Write("test");
                     }
+                    File.Delete(testFile);
                 }
                 catch (UnauthorizedAccessException)
                 {
